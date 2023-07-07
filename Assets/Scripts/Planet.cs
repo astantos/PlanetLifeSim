@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
+    [Header("Settings")]
     [Range(2, 256)]
     public int Resolution;
+    public float Radius;
+    public Color BaseColor;
 
+    
+    
     protected GameObject[] faces;
-
     protected MeshRenderer[] meshRenderers;
     protected MeshFilter[] meshFilters;
-
     protected TerrainFace[] terrainFaces;
     
     #region Initialization
@@ -63,7 +66,15 @@ public class Planet : MonoBehaviour
     {
         for (int index = 0; index < terrainFaces.Length; index++)
         {
-            terrainFaces[index].ConstructMesh();
+            terrainFaces[index].ConstructMesh(Radius, BaseColor);
+        }
+    }
+
+    protected void GenerateColors()
+    {
+        for (int index = 0; index < meshRenderers.Length; index++)
+        {
+            meshRenderers[index].sharedMaterial.color = BaseColor;
         }
     }
     #endregion
@@ -73,6 +84,7 @@ public class Planet : MonoBehaviour
     {
         Initialize();
         GenerateMesh();
+        GenerateColors();
     }
     #endregion
 }
