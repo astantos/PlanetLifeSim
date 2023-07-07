@@ -10,7 +10,8 @@ public class Planet : MonoBehaviour
     public float Radius;
     public Color BaseColor;
 
-    
+    [Space]
+    public NoiseFilter NoiseFilter;
     
     protected GameObject[] faces;
     protected MeshRenderer[] meshRenderers;
@@ -66,7 +67,7 @@ public class Planet : MonoBehaviour
     {
         for (int index = 0; index < terrainFaces.Length; index++)
         {
-            terrainFaces[index].ConstructMesh(Radius, BaseColor);
+            terrainFaces[index].ConstructMesh(Radius, BaseColor, NoiseFilter);
         }
     }
 
