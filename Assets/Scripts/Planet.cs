@@ -83,6 +83,7 @@ public class Planet : MonoBehaviour
     #region Unity Functions
     private void OnValidate()
     {
+        Debug.Log("[ >>>>> ] On Validate!");
         Initialize();
         GenerateMesh();
         GenerateColors();
