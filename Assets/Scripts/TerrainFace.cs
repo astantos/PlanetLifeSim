@@ -34,7 +34,8 @@ public class TerrainFace
             {
                 Vector2 percent = new Vector2(x, y) / (Resolution - 1);
                 Vector3 pointOnUnitCube = localUp + (percent.x - 0.5f) * 2 * axisA + (percent.y - 0.5f) * 2 * axisB;
-                vertices[count] = pointOnUnitCube;
+                Vector3 pointOnUnitSphere = pointOnUnitCube.normalized;
+                vertices[count] = pointOnUnitSphere;
                 if (x < Resolution - 1 && y < Resolution - 1)
                 {
                     triangles[triIndex] = count;
