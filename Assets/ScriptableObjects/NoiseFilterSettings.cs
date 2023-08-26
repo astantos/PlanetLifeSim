@@ -1,0 +1,24 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(menuName = "PlanetGeneration/NoiseFilterSettings")]
+public class NoiseFilterSettings : ScriptableObject
+{
+    public enum NoiseFilterType { Simple, Ridged };
+
+    public NoiseFilterType FilterType;
+    public bool Enabled;
+    public int Mask;
+
+    [Space]
+    [Range(1,8)]
+    public int Layers;
+    public float Strength;
+    public float BaseRoughness;
+    public float Roughness;
+    public float Persistence;
+    public float MinValue;
+    public Vector3 Center;
+}

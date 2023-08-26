@@ -40,7 +40,7 @@ public class TerrainFace
                 float elevation = 0;
                 for (int filter = 0; filter < filters.Length; filter++)
                 {
-                    int mask = filters[filter].Mask;
+                    int mask = filters[filter].FilterSettings.Mask;
                     float maskValue = 1;
                     if (mask != -1)
                     {

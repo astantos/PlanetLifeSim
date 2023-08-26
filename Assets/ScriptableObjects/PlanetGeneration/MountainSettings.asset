@@ -12,10 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927955ab2b4532d45ac1506823bc6b23, type: 3}
   m_Name: MountainSettings
   m_EditorClassIdentifier: 
+  FilterType: 1
+  Enabled: 1
+  Mask: 0
   Layers: 8
-  Strength: 4
+  Strength: 3
   BaseRoughness: 2
-  Roughness: 2
-  Persistence: 0.5
-  MinValue: 1.3
+  Roughness: 5
+  Persistence: 0.3
+  MinValue: 1
   Center: {x: 0, y: 0, z: 0}

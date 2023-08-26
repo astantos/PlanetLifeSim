@@ -14,7 +14,8 @@ public class Planet : MonoBehaviour
     public Color BaseColor;
 
     [Space]
-    public NoiseFilter[] NoiseFilters;
+    public NoiseFilterSettings[] NoiseFilterSettings;
+    protected NoiseFilter[] NoiseFilters;
     
     protected GameObject[] faces;
     protected MeshRenderer[] meshRenderers;
@@ -65,12 +66,35 @@ public class Planet : MonoBehaviour
             }
         }
     }
+    
+    protected void InitializeNoiseFilters()
+    {
+        NoiseFilter[] filters = new NoiseFilter[NoiseFilterSettings.Length];
+        if (NoiseFilters == null)
+        {
+            NoiseFilters = new NoiseFilter[filters.Length];
+        }
+
+        for (int index = 0; index < NoiseFilterSettings.Length; index++)
+        {
+            if (index < NoiseFilters.Length && NoiseFilters[index] != null)
+            {
+                filters[index] = NoiseFilterFactory.CreateNoiseFilter(NoiseFilters[index], NoiseFilterSettings[index]);
+            }
+            else
+            {
+                filters[index] = NoiseFilterFactory.CreateNoiseFilter(NoiseFilterSettings[index]);
+            }
+        }
+        NoiseFilters = filters;
+    }
     #endregion
 
     #region Generation
     public void RegenerateAll()
     {
         Initialize();
+        InitializeNoiseFilters();
         GenerateMesh();
         GenerateColors();
     }

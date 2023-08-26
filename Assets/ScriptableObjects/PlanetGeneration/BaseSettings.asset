@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 927955ab2b4532d45ac1506823bc6b23, type: 3}
   m_Name: BaseSettings
   m_EditorClassIdentifier: 
+  FilterType: 0
+  Enabled: 1
+  Mask: -1
   Layers: 8
   Strength: 0.15
   BaseRoughness: 0.6
