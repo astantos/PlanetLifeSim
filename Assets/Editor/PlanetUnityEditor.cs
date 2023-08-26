@@ -9,7 +9,6 @@ public class PlanetUnityEditor : Editor
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        DrawDefaultInspector();
         Planet planetScript = (Planet)target;
 
         if (GUILayout.Button("RegeneratePlanet"))
