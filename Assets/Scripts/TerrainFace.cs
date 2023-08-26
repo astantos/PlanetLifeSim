@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,11 +36,26 @@ public class TerrainFace
                 Vector2 percent = new Vector2(x, y) / (Resolution - 1);
                 Vector3 pointOnUnitCube = localUp + (percent.x - 0.5f) * 2 * axisA + (percent.y - 0.5f) * 2 * axisB;
                 Vector3 pointOnUnitSphere = pointOnUnitCube.normalized;
+
                 float elevation = 0;
                 for (int filter = 0; filter < filters.Length; filter++)
                 {
-                    elevation += filters[filter].Evaluate(pointOnUnitSphere, seed);
+                    int mask = filters[filter].Mask;
+                    float maskValue = 1;
+                    if (mask != -1)
+                    {
+                        if (mask >= 0 && mask < filters.Length)
+                        {
+                            maskValue = filters[mask].Evaluate(pointOnUnitSphere, seed);
+                        }
+                        else
+                        {
+                            Debug.LogWarning("[ NOISE FILTER ] Warning: Mask Index must be a valid filter index");
+                        }
+                    }
+                    elevation += filters[filter].Evaluate(pointOnUnitSphere, seed) * maskValue;
                 }
+
                 vertices[count] = pointOnUnitSphere * radius * (1 + elevation);
                 if (x < Resolution - 1 && y < Resolution - 1)
                 {
@@ -53,6 +69,7 @@ public class TerrainFace
 
                     triIndex += 6;
                 }
+
                 count++;
             }
         }

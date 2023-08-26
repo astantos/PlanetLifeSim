@@ -17,5 +17,5 @@ MonoBehaviour:
   BaseRoughness: 0.6
   Roughness: 1.75
   Persistence: 0.65
-  MinValue: 1.1
+  MinValue: 1.3
   Center: {x: 0, y: 0, z: 0}

@@ -8,6 +8,7 @@ public class NoiseFilter
 {
     public bool Enabled;
     public NoiseFilterSettings FilterSettings;
+    public int Mask = -1;
 
     public float Evaluate(Vector3 point, int seed = 0)
     {

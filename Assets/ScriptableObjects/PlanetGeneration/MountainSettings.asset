@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MountainSettings
   m_EditorClassIdentifier: 
   Layers: 8
-  Strength: 0.5
+  Strength: 4
   BaseRoughness: 2
   Roughness: 2
   Persistence: 0.5
