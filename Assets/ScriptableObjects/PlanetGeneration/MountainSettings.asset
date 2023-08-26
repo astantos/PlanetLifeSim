@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MountainSettings
   m_EditorClassIdentifier: 
   FilterType: 1
-  Enabled: 1
+  Enabled: 0
   Mask: 0
   Layers: 8
   Strength: 4
