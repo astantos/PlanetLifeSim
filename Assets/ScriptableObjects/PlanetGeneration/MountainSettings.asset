@@ -16,9 +16,9 @@ MonoBehaviour:
   Enabled: 1
   Mask: 0
   Layers: 8
-  Strength: 3
-  BaseRoughness: 2
-  Roughness: 5
-  Persistence: 0.3
+  Strength: 4
+  BaseRoughness: 1
+  Roughness: 4
+  Persistence: 0.4
   MinValue: 1
   Center: {x: 0, y: 0, z: 0}
