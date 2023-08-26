@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class Planet : MonoBehaviour
 {
-    [Header("Settings")]
+    [Header("Seed")]
+    public int Seed;
+    
+    [Header("Planet Settings")]
     [Range(2, 256)]
     public int Resolution;
     public float Radius;
     public Color BaseColor;
 
     [Space]
-    public NoiseFilter NoiseFilter;
+    public NoiseFilter[] NoiseFilters;
     
     protected GameObject[] faces;
     protected MeshRenderer[] meshRenderers;
@@ -62,12 +65,21 @@ public class Planet : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    #region Generation
+    public void RegenerateAll()
+    {
+        Initialize();
+        GenerateMesh();
+        GenerateColors();
+    }
 
     protected void GenerateMesh()
     {
         for (int index = 0; index < terrainFaces.Length; index++)
         {
-            terrainFaces[index].ConstructMesh(Radius, BaseColor, NoiseFilter);
+            terrainFaces[index].ConstructMesh(Radius, BaseColor, NoiseFilters, Seed);
         }
     }
 
@@ -84,9 +96,7 @@ public class Planet : MonoBehaviour
     private void OnValidate()
     {
         Debug.Log("[ >>>>> ] On Validate!");
-        Initialize();
-        GenerateMesh();
-        GenerateColors();
+        RegenerateAll();
     }
     #endregion
 }

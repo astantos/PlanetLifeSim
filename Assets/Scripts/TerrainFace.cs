@@ -21,7 +21,7 @@ public class TerrainFace
         axisB = Vector3.Cross(localUp, axisA);
     }
 
-    public void ConstructMesh(float radius, Color baseColor, NoiseFilter filter)
+    public void ConstructMesh(float radius, Color baseColor, NoiseFilter[] filters, int seed)
     {
         Vector3[] vertices = new Vector3[Resolution * Resolution];
         int[] triangles = new int[(Resolution - 1) * (Resolution - 1) * 2 * 3];
@@ -35,7 +35,11 @@ public class TerrainFace
                 Vector2 percent = new Vector2(x, y) / (Resolution - 1);
                 Vector3 pointOnUnitCube = localUp + (percent.x - 0.5f) * 2 * axisA + (percent.y - 0.5f) * 2 * axisB;
                 Vector3 pointOnUnitSphere = pointOnUnitCube.normalized;
-                float elevation = filter.Evaluate(pointOnUnitSphere);
+                float elevation = 0;
+                for (int filter = 0; filter < filters.Length; filter++)
+                {
+                    elevation += filters[filter].Evaluate(pointOnUnitSphere, seed);
+                }
                 vertices[count] = pointOnUnitSphere * radius * (1 + elevation);
                 if (x < Resolution - 1 && y < Resolution - 1)
                 {
