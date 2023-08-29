@@ -12,9 +12,12 @@ public class TerrainFace
     protected Vector3 axisA;
     protected Vector3 axisB;
 
-    public TerrainFace(Mesh mesh, int res, Vector3 up)
+    protected PlanetData planetData;
+
+    public TerrainFace(Mesh mesh, int res, Vector3 up, PlanetData planetData)
     {
         this.mesh = mesh;
+        this.planetData = planetData;
         Resolution = res;
         localUp = up;
 
@@ -56,7 +59,9 @@ public class TerrainFace
                     elevation += filters[filter].Evaluate(pointOnUnitSphere, seed) * maskValue;
                 }
 
-                vertices[count] = pointOnUnitSphere * radius * (1 + elevation);
+                elevation = radius * (1 + elevation);
+                planetData.RecordAltitudeExtremes(elevation);
+                vertices[count] = pointOnUnitSphere * elevation;
                 if (x < Resolution - 1 && y < Resolution - 1)
                 {
                     triangles[triIndex] = count;
