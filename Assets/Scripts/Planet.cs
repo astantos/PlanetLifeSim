@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,8 +12,24 @@ public class Planet : MonoBehaviour
     [Range(2, 256)]
     public int Resolution;
     public float Radius;
+
+    [Header("Color Settings")]
     public Color BaseColor;
     public Gradient PlanetGradient;
+
+    [Serializable]
+    public struct BiomeInfo
+    {
+        public NoiseFilterSettings BiomeNoiseSettings;
+        public float Offset;
+        public float Strength;
+        [Range(0,1)]
+        public float BlendAmount;
+    }
+    [Header("Biomes")]
+    public BiomeInfo BiomeSettings;
+    public Biome[] Biomes;
+
 
     [Space]
     public Material PlanetMaterial;
@@ -22,8 +39,8 @@ public class Planet : MonoBehaviour
     protected NoiseFilter[] NoiseFilters;
 
     [Header("Planet Data")]
-    [SerializeField] protected float MinElevation;
-    [SerializeField] protected float MaxElevation;
+    protected float MinElevation;
+    protected float MaxElevation;
 
     #region Planet Model Objects
     protected GameObject[] faces;
@@ -42,8 +59,8 @@ public class Planet : MonoBehaviour
     {
         InitializeArrays();
         planetData = new PlanetData();
-        altitudeColorGenerator = new AltitudeColorGenerator();
-        altitudeColorGenerator.UpdateGenerator(PlanetMaterial);
+        altitudeColorGenerator = new AltitudeColorGenerator(PlanetMaterial, BiomeSettings);
+        altitudeColorGenerator.UpdateColorGenerator(Biomes);
 
         Vector3[] directions =
         {
@@ -60,7 +77,7 @@ public class Planet : MonoBehaviour
             GameObject mesh = faces[index];
             meshRenderers[index].sharedMaterial = PlanetMaterial;
             meshFilters[index].sharedMesh = new Mesh();
-            terrainFaces[index] = new TerrainFace(meshFilters[index].sharedMesh, Resolution, directions[index], planetData);
+            terrainFaces[index] = new TerrainFace(meshFilters[index].sharedMesh, Resolution, directions[index], planetData, altitudeColorGenerator);
         }
 
         initializing = false;
@@ -85,8 +102,6 @@ public class Planet : MonoBehaviour
                 meshFilters[index] = faces[index].AddComponent<MeshFilter>();
             }
         }
-
-        PlanetData mm = new PlanetData();
     }
     
     protected void InitializeNoiseFilters()
@@ -138,7 +153,12 @@ public class Planet : MonoBehaviour
         if (planetData == null) Debug.LogError("[ ERROR ] Planet Data is NULL");
         if (altitudeColorGenerator == null) Debug.LogError("[ ERROR ] Altitude Color Generator is NULL");;
         altitudeColorGenerator.UpdateElevation(planetData);
-        altitudeColorGenerator.UpdateColours(PlanetGradient);
+        altitudeColorGenerator.UpdateColours(PlanetGradient, Biomes);
+
+        for (int index = 0; index < terrainFaces.Length; index++)
+        {
+            terrainFaces[index].UpdateUVs(Biomes, BiomeSettings);
+        }
     }
     #endregion
 

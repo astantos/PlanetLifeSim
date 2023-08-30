@@ -13,11 +13,14 @@ public class TerrainFace
     protected Vector3 axisB;
 
     protected PlanetData planetData;
+    protected AltitudeColorGenerator altitudeColorGenerator;
 
-    public TerrainFace(Mesh mesh, int res, Vector3 up, PlanetData planetData)
+    public TerrainFace(Mesh mesh, int res, Vector3 up, PlanetData planetData, AltitudeColorGenerator altitudeColorGenerator)
     {
         this.mesh = mesh;
         this.planetData = planetData;
+        this.altitudeColorGenerator = altitudeColorGenerator;
+
         Resolution = res;
         localUp = up;
 
@@ -30,6 +33,7 @@ public class TerrainFace
         Vector3[] vertices = new Vector3[Resolution * Resolution];
         int[] triangles = new int[(Resolution - 1) * (Resolution - 1) * 2 * 3];
         int triIndex = 0;
+        Vector2[] uv = mesh.uv;
 
         int count = 0;
         for (int y = 0; y < Resolution; y++)
@@ -84,5 +88,28 @@ public class TerrainFace
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.RecalculateNormals();
+
+        mesh.uv = uv;
     }
+
+    public void UpdateUVs(Biome[] biomes, Planet.BiomeInfo biomeSettings)
+    {
+        Vector2[] uv = new Vector2[mesh.vertices.Length];
+
+        for (int y = 0; y < Resolution; y++)
+        {
+            for (int x = 0; x < Resolution; x++)
+            {
+                int i = x + y * Resolution;
+                Vector2 percent = new Vector2(x, y) / (Resolution - 1);
+                Vector3 pointOnUnitCube = localUp + (percent.x - 0.5f) * 2 * axisA + (percent.y - 0.5f) * 2 * axisB;
+                Vector3 pointOnUnitSphere = pointOnUnitCube.normalized;
+
+                uv[i] = new Vector2(altitudeColorGenerator.BiomePercentFromPoint(pointOnUnitSphere, biomes, biomeSettings), 0);
+            }
+        }
+
+        mesh.uv = uv;
+    }
+
 }

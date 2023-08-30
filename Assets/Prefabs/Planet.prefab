@@ -77,10 +77,17 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 7
     m_NumAlphaKeys: 2
+  BiomeSettings:
+    BiomeNoiseSettings: {fileID: 11400000, guid: 8e718371f9bf95841b973e78e154b4cd, type: 2}
+    Offset: 0
+    Strength: 1
+    BlendAmount: 0
+  Biomes:
+  - {fileID: 11400000, guid: 27fcff24ca0d091488daa524512c1c7e, type: 2}
+  - {fileID: 11400000, guid: 890983e075d495e49a9dd947b9954876, type: 2}
+  - {fileID: 11400000, guid: 7c02d0ce634121b49908174e013778de, type: 2}
   PlanetMaterial: {fileID: 2100000, guid: 27b21df061459b849b20f7b0b5a8ad4f, type: 2}
   NoiseFilterSettings:
   - {fileID: 11400000, guid: b35bf72f23f56f84b94a63c8ab1c58f8, type: 2}
   - {fileID: 11400000, guid: 9b28fa3b136ebe34faa71157078025cf, type: 2}
   - {fileID: 11400000, guid: fd85ddf2bdcae7e409a739751278a3a3, type: 2}
-  MinElevation: 1.5
-  MaxElevation: 1.7832048
